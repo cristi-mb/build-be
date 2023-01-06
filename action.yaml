@@ -31,7 +31,7 @@ runs:
   steps:  
     - name: Notify Slack Start
       id: notify-slack-start
-      uses: cristi-mb/slack-notify@1
+      uses: cristi-mb/slack-notify@main
       with:
         message-type: 'start'
         slack-channel: ${{ inputs.slack-channel }}
@@ -80,7 +80,7 @@ runs:
 
     - name: Notify Slack Result
       if: always()
-      uses: cristi-mb/slack-notify@1
+      uses: cristi-mb/slack-notify@main
       with:
         message-type: 'results'
         slack-channel: ${{ inputs.slack-channel }}
