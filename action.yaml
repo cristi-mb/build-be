@@ -26,6 +26,10 @@ inputs:
     description: 'Path to the Dockerfile'
     required: false
     default: ''
+  submodules:
+    description: 'Whether submodules need to be initialised'
+    required: false
+    default: false
 outputs:
   image-tag:
     description: "Published image tag"
@@ -44,8 +48,12 @@ runs:
     - name: Checkout
       id: checkout
       uses: actions/checkout@v3.2.0
-      with:
-        submodules: recursive
+      
+    - name: Checkout submodules
+      id: submodules
+      if: ${{ inputs.submodules }} == true
+      run: git submodule update --init --recursive
+      shell: bash
 
     - name: Set image tag
       id: set-tag
