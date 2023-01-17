@@ -44,6 +44,8 @@ runs:
     - name: Checkout
       id: checkout
       uses: actions/checkout@v3.2.0
+      with:
+        submodules: recursive
 
     - name: Set image tag
       id: set-tag
