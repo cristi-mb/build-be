@@ -30,6 +30,10 @@ inputs:
     description: 'Whether submodules need to be initialised'
     required: false
     default: false
+  submodules-key:
+    description: 'SSH Key for cloning and initialising the submodules'
+    required: ${{ inputs.submodules }} == true
+    default: ''
 outputs:
   image-tag:
     description: "Published image tag"
@@ -52,7 +56,10 @@ runs:
     - name: Checkout submodules
       id: submodules
       if: ${{ inputs.submodules }} == true
-      run: git submodule update --init --recursive
+      run: |
+        mkdir $HOME/.ssh && echo "$SSH_KEY" > $HOME/.ssh/id_rsa && chmod 600 $HOME/.ssh/id_rsa && git submodule update --init --recursive
+      env:
+        SSH_KEY: ${{ inputs.submodules-key }}
       shell: bash
 
     - name: Set image tag
