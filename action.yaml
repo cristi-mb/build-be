@@ -32,7 +32,7 @@ inputs:
     default: false
   submodules-key:
     description: 'SSH Key for cloning and initialising the submodules'
-    required: ${{ inputs.submodules }} == true
+    required: false
     default: ''
 outputs:
   image-tag:
