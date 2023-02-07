@@ -15,10 +15,12 @@ inputs:
     required: true
   slack-channel:
     description: 'Name of the Slack channel used for CI alerts'
-    required: true
+    required: false
+    default: ''
   slack-token:
     description: 'Token for Slack integration'
-    required: true
+    required: false
+    default: ''
   ecr-repository:
     description: 'Amazon ECR Repository to publish the image to'
     required: true
@@ -42,6 +44,7 @@ runs:
   using: "composite"
   steps:  
     - name: Notify Slack Start
+      if: ${{ (inputs.slack-channel != '') && (inputs.slack-token != '') }}
       id: notify-slack-start
       uses: cristi-mb/slack-notify@main
       with:
@@ -101,7 +104,7 @@ runs:
       shell: bash
 
     - name: Notify Slack Result
-      if: always()
+      if: ${{ always() && (inputs.slack-channel != '') && (inputs.slack-token != '') }}
       uses: cristi-mb/slack-notify@main
       with:
         message-type: 'results'
