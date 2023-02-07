@@ -104,7 +104,7 @@ runs:
       shell: bash
 
     - name: Notify Slack Result
-      if: always() && ${{ (inputs.slack-channel != '') && (inputs.slack-token != '') }}
+      if: ${{ always() && (inputs.slack-channel != '') && (inputs.slack-token != '') }}
       uses: cristi-mb/slack-notify@main
       with:
         message-type: 'results'
