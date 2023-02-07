@@ -44,7 +44,7 @@ runs:
   using: "composite"
   steps:  
     - name: Notify Slack Start
-      if: ${{ (inputs.slack_channel != '') && (inputs.slack_token != '') }}
+      if: ${{ (inputs.slack-channel != '') && (inputs.slack-token != '') }}
       id: notify-slack-start
       uses: cristi-mb/slack-notify@main
       with:
@@ -104,7 +104,7 @@ runs:
       shell: bash
 
     - name: Notify Slack Result
-      if: ${{ always() && (inputs.slack_channel != '') && (inputs.slack_token != '') }}
+      if: always() && ${{ (inputs.slack-channel != '') && (inputs.slack-token != '') }}
       uses: cristi-mb/slack-notify@main
       with:
         message-type: 'results'
