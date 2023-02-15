@@ -13,6 +13,9 @@ inputs:
   aws-region:
     description: 'AWS Region of the S3 and CloudFront resources'
     required: true
+  ecr-repository:
+    description: 'Amazon ECR Repository to publish the image to'
+    required: true
   slack-channel:
     description: 'Name of the Slack channel used for CI alerts'
     required: false
@@ -21,9 +24,6 @@ inputs:
     description: 'Token for Slack integration'
     required: false
     default: ''
-  ecr-repository:
-    description: 'Amazon ECR Repository to publish the image to'
-    required: true
   docker-path:
     description: 'Path to the Dockerfile'
     required: false
