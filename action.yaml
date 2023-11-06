@@ -29,7 +29,7 @@ inputs:
     required: false
     default: './'
   submodules:
-    description: 'Whether submodules need to be initialised'
+    description: 'Enable if submodules need to be initialised'
     required: false
     default: false
   submodules-key:
@@ -58,7 +58,7 @@ runs:
       
     - name: Checkout submodules
       id: submodules
-      if: ${{ inputs.submodules }} == true
+      if: inputs.submodules == true
       run: |
         mkdir $HOME/.ssh && echo "$SSH_KEY" > $HOME/.ssh/id_rsa && chmod 600 $HOME/.ssh/id_rsa && git submodule update --init --recursive
       env:
