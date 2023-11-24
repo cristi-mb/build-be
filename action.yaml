@@ -58,7 +58,7 @@ runs:
       
     - name: Checkout submodules
       id: submodules
-      if: inputs.submodules == true
+      if: ${{ inputs.submodules == true }}
       run: |
         mkdir $HOME/.ssh && echo "$SSH_KEY" > $HOME/.ssh/id_rsa && chmod 600 $HOME/.ssh/id_rsa && git submodule update --init --recursive
       env:
