@@ -6,7 +6,7 @@
 | :-----: | :---: | :--------: | :----: |
 | aws-access-key | yes | | |
 | aws-secret-access-key | yes | | |
-| aws-region | yes | | `us-east-1` |
+| aws-region | no | | `us-east-1` |
 | ecr-repository | yes | | |
 | slack-channel | no | Send to enable Slack messages | `''`|
 | slack-token | no | Send to enable Slack messages | `''` |
