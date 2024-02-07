@@ -12,7 +12,7 @@ inputs:
     required: true
   aws-region:
     description: 'AWS Region of the S3 and CloudFront resources'
-    required: true
+    required: false
     default: 'us-east-1'
   ecr-repository:
     description: 'Amazon ECR Repository to publish the image to'
