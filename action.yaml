@@ -37,6 +37,10 @@ inputs:
     description: 'SSH Key for cloning and initialising the submodules'
     required: false
     default: ''
+  tag-extras:
+    description: 'String to append to image tag. Used for Flux Image Automation'
+    required: false
+    default: ''
 outputs:
   image-tag:
     description: "Published image tag"
@@ -68,7 +72,10 @@ runs:
 
     - name: Set image tag
       id: set-tag
-      run: echo "image-tag=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_OUTPUT
+      if: ${{ inputs.tag-with-timestamp }} == false
+      run: echo "image-tag=$(echo ${GITHUB_SHA}${TAG_EXTRAS} | cut -c1-7)" >> $GITHUB_OUTPUT
+      env:
+        TAG_EXTRAS: ${{ inputs.tag-extras }}
       shell: bash
 
     - name: Configure AWS credentials
