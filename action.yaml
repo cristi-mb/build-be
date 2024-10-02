@@ -73,7 +73,7 @@ runs:
     - name: Set image tag
       id: set-tag
       if: ${{ inputs.tag-with-timestamp }} == false
-      run: echo "image-tag=$(echo ${GITHUB_SHA}${TAG_EXTRAS} | cut -c1-7)" >> $GITHUB_OUTPUT
+      run: echo "image-tag=$(echo ${GITHUB_SHA} | cut -c1-7)$TAG_EXTRAS" >> $GITHUB_OUTPUT
       env:
         TAG_EXTRAS: ${{ inputs.tag-extras }}
       shell: bash
