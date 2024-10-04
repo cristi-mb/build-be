@@ -82,7 +82,7 @@ runs:
       id: set-tag
       run: |
         if [[ $CUSTOM_IMAGE_TAG == "" ]]; then
-          echo "image-tag=$TAG_PREFIX-$(echo ${GITHUB_SHA} | cut -c1-7)-$TAG_SUFFIX" >> $GITHUB_OUTPUT
+          echo "image-tag=$TAG_PREFIX$(echo ${GITHUB_SHA} | cut -c1-7)$TAG_SUFFIX" >> $GITHUB_OUTPUT
         else
           echo "image-tag=$CUSTOM_IMAGE_TAG" >> $GITHUB_OUTPUT
         fi
