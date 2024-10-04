@@ -37,8 +37,16 @@ inputs:
     description: 'SSH Key for cloning and initialising the submodules'
     required: false
     default: ''
-  tag-extras:
-    description: 'String to append to image tag. Used for Flux Image Automation'
+  custom-image-tag:
+    description: 'String to override the default image tag (commit hash) with.'
+    required: false
+    default: ''
+  tag-prefix:
+    description: 'String to append before the commit hash in the tag. Used for Flux Image Automation'
+    required: false
+    default: ''
+  tag-suffix:
+    description: 'String to append after the commit hash in the image tag. Used for Flux Image Automation'
     required: false
     default: ''
 outputs:
@@ -72,10 +80,16 @@ runs:
 
     - name: Set image tag
       id: set-tag
-      if: ${{ inputs.tag-with-timestamp }} == false
-      run: echo "image-tag=$(echo ${GITHUB_SHA} | cut -c1-7)$TAG_EXTRAS" >> $GITHUB_OUTPUT
+      run: |
+        if [[ $CUSTOM_IMAGE_TAG == "" ]]; then
+          echo "image-tag=$TAG_PREFIX-$(echo ${GITHUB_SHA} | cut -c1-7)-$TAG_SUFFIX" >> $GITHUB_OUTPUT
+        else
+          echo "image-tag=$CUSTOM_IMAGE_TAG" >> $GITHUB_OUTPUT
+        fi
       env:
-        TAG_EXTRAS: ${{ inputs.tag-extras }}
+        CUSTOM_IMAGE_TAG: ${{ inputs.custom-image-tag }}
+        TAG_PREFIX: ${{ inputs.tag-prefix }}
+        TAG_SUFFIX: ${{ inputs.tag-suffix }}
       shell: bash
 
     - name: Configure AWS credentials
