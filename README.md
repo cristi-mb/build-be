@@ -13,7 +13,9 @@
 | docker-path | no | Path to the folder containing the Dockerfile | `./` |
 | submodules | no | `true` if there are submodules in the repository that need to be initialised | |
 | submodules-key | no | Required if submodules is `true` and the submodule repositories are private | |
-| tag-extras | no | Append additional info to image tag | `''` |
+| custom-tag-tag | no | Override default image tag | `''` |
+| tag-prefix | no | Append additional info to image tag (before commit hash) | `''` |
+| tag-suffix | no | Append additional info to image tag (after commit hash) | `''` |
 
 <br>
 
