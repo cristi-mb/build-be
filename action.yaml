@@ -29,6 +29,10 @@ inputs:
     description: 'Path to the Dockerfile'
     required: false
     default: './'
+  docker-context-folder:
+    description: 'Path to Docker context'
+    required: false
+    default: '.'
   submodules:
     description: 'Enable if submodules need to be initialised'
     required: false
@@ -109,13 +113,14 @@ runs:
       run: |
         docker build \
           -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} \
-          -f ${GITHUB_WORKSPACE}/${DOCKER_PATH}/Dockerfile .
+          -f ${GITHUB_WORKSPACE}/${DOCKER_PATH}/Dockerfile ${GITHUB_WORKSPACE}/${DOCKER_CONTEXT_FOLDER}
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ${{ inputs.ecr-repository }}
         IMAGE_TAG: ${{ steps.set-tag.outputs.image-tag }}
         DOCKER_PATH: ${{ inputs.docker-path }}
+        DOCKER_CONTEXT_FOLDER: ${{ inputs.docker-context-folder }}
       shell: bash
         
     - name: Logout from Amazon ECR
