@@ -29,10 +29,6 @@ inputs:
     description: 'Path to the Dockerfile'
     required: false
     default: './'
-  docker-context:
-    description: 'Path to the Docker context'
-    required: false
-    default: '.'
   submodules:
     description: 'Enable if submodules need to be initialised'
     required: false
@@ -120,7 +116,6 @@ runs:
         ECR_REPOSITORY: ${{ inputs.ecr-repository }}
         IMAGE_TAG: ${{ steps.set-tag.outputs.image-tag }}
         DOCKER_PATH: ${{ inputs.docker-path }}
-        DOCKER_CONTEXT: ${{ inputs.docker-context }}
       shell: bash
         
     - name: Logout from Amazon ECR
