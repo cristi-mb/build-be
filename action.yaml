@@ -116,17 +116,17 @@ runs:
       id: set-envs
       run: |
         ARGS=""
-
-        echo "${{ inputs.build-envs }}" | while read line; do      
-          if [[ $line == "" ]]; then
-            continue;
+        
+        while IFS= read -r line; do      
+          if [[ -z "$line" ]]; then
+            continue
           fi
 
-          key=$(echo $line | cut -d '=' -f 1 | tr -d ' ')
-          value=$(echo $line | cut -d '=' -f 2- | tr -d ' ')
+          key=$(echo "$line" | cut -d '=' -f 1 | tr -d ' ')
+          value=$(echo "$line" | cut -d '=' -f 2- | tr -d ' ')
 
           ARGS="$ARGS --build-arg $key=$value"
-        done
+        done <<< "${{ inputs.build-envs }}"
 
         echo "BUILD_ARGS=$ARGS" >> $GITHUB_ENV
       shell: bash
