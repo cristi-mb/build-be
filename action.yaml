@@ -113,9 +113,10 @@ runs:
       uses: aws-actions/amazon-ecr-login@v2
 
     - name: Set envs
-      if: inputs.skip-build == 'false'
       id: set-envs
       run: |
+        ARGS=""
+
         echo "${{ inputs.build-envs }}" | while read line; do      
           if [[ $line == "" ]]; then
             continue;
@@ -124,14 +125,16 @@ runs:
           key=$(echo $line | cut -d '=' -f 1 | tr -d ' ')
           value=$(echo $line | cut -d '=' -f 2- | tr -d ' ')
 
-          echo "$key=$value" >> $GITHUB_ENV
+          ARGS="$ARGS --build-arg $key=$value"
         done
+
+        echo "BUILD_ARGS=$ARGS" >> $GITHUB_ENV
       shell: bash
     
     - name: Build, tag and push the image
       id: build-push
       run: |
-        docker build \
+        docker build $BUILD_ARGS \
           -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} \
           -f ${GITHUB_WORKSPACE}/${DOCKER_PATH}/Dockerfile ${GITHUB_WORKSPACE}/${DOCKER_CONTEXT_FOLDER}
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}
