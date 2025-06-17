@@ -33,6 +33,10 @@ inputs:
     description: 'Path to Docker context'
     required: false
     default: '.'
+  build-envs:
+    description: 'Environment variables passed used for building the application'
+    required: false
+    default: ''
   submodules:
     description: 'Enable if submodules need to be initialised'
     required: false
@@ -107,6 +111,22 @@ runs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
+
+     - name: Set envs
+      if: inputs.build-envs != ''
+      id: set-envs
+      run: |
+        echo "${{ inputs.build-envs }}" | while read line; do      
+          if [[ $line == "" ]]; then
+            continue;
+          fi
+
+          key=$(echo $line | cut -d '=' -f 1 | tr -d ' ')
+          value=$(echo $line | cut -d '=' -f 2- | tr -d ' ')
+
+          echo "$key=$value" >> $GITHUB_ENV
+        done
+      shell: bash
     
     - name: Build, tag and push the image
       id: build-push
