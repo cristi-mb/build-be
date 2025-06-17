@@ -128,13 +128,13 @@ runs:
           ARGS="$ARGS --build-arg $key=$value"
         done <<< "${{ inputs.build-envs }}"
 
-        echo "build-args=$ARGS" >> $GITHUB_ENV
+        echo "build-args=$ARGS" >> $GITHUB_OUTPUT
       shell: bash
     
     - name: Build, tag and push the image
       id: build-push
       run: |
-        docker build $build-args \
+        docker build $BUILD_ARGS \
           -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} \
           -f ${GITHUB_WORKSPACE}/${DOCKER_PATH}/Dockerfile ${GITHUB_WORKSPACE}/${DOCKER_CONTEXT_FOLDER}
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}
