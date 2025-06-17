@@ -113,20 +113,20 @@ runs:
       uses: aws-actions/amazon-ecr-login@v2
 
      - name: Set envs
-      if: inputs.build-envs != ''
-      id: set-envs
-      run: |
-        echo "${{ inputs.build-envs }}" | while read line; do      
-          if [[ $line == "" ]]; then
-            continue;
-          fi
+       if: inputs.build-envs != ''
+       id: set-envs
+       run: |
+         echo "${{ inputs.build-envs }}" | while read line; do      
+           if [[ $line == "" ]]; then
+             continue;
+           fi
 
-          key=$(echo $line | cut -d '=' -f 1 | tr -d ' ')
-          value=$(echo $line | cut -d '=' -f 2- | tr -d ' ')
+           key=$(echo $line | cut -d '=' -f 1 | tr -d ' ')
+           value=$(echo $line | cut -d '=' -f 2- | tr -d ' ')
 
-          echo "$key=$value" >> $GITHUB_ENV
-        done
-      shell: bash
+           echo "$key=$value" >> $GITHUB_ENV
+         done
+       shell: bash
     
     - name: Build, tag and push the image
       id: build-push
