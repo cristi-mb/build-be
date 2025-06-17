@@ -128,7 +128,7 @@ runs:
           ARGS="$ARGS --build-arg $key=$value"
         done <<< "${{ inputs.build-envs }}"
 
-        echo "BUILD_ARGS=$ARGS" >> $GITHUB_ENV
+        echo "build-args=$ARGS" >> $GITHUB_ENV
       shell: bash
     
     - name: Build, tag and push the image
@@ -144,6 +144,7 @@ runs:
         IMAGE_TAG: ${{ steps.set-tag.outputs.image-tag }}
         DOCKER_PATH: ${{ inputs.docker-path }}
         DOCKER_CONTEXT_FOLDER: ${{ inputs.docker-context-folder }}
+        BUILD_ARGS: ${{ steps.set-envs.outputs.build-args }}
       shell: bash
         
     - name: Logout from Amazon ECR
