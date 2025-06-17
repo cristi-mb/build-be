@@ -134,7 +134,7 @@ runs:
     - name: Build, tag and push the image
       id: build-push
       run: |
-        docker build $BUILD_ARGS \
+        docker build $build-args \
           -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} \
           -f ${GITHUB_WORKSPACE}/${DOCKER_PATH}/Dockerfile ${GITHUB_WORKSPACE}/${DOCKER_CONTEXT_FOLDER}
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}
